@@ -121,22 +121,33 @@ How much space is there between them?  Hint: Google knows how to subtract hexade
 
 ### Files and file systems
 
-1) What abstractions do file systems provide?  Give an example of something that is logically
-true about files systems but not true of their implementations.
+1) What abstractions do file systems provide?  Give an example of something that is logically true about files systems but not true of their implementations.
+
+- Hierarchical storage of string based file names so you can reference items easily, and find them easily. "Files are byte-based and persistent storage is block-based."
 
 2) What information do you imagine is stored in an `OpenFileTableEntry`?
 
+- Shows that a file is open for writing.
+
 3) What are some of the ways operating systems deal with the relatively slow performance of persistent storage?
 
-4) Suppose your program writes a file and prints a message indicating that it is done writing.  
-Then a power cut crashes your computer.  After you restore power and reboot the computer, you find that the
-file you wrote is not there.  What happened?
+- They make it seem that there is no logical difference in speed. You can: transfer larger amounts because they use about the same amount of time, prefetch files that might be needed in the future, buffer by writing the file from memory to the hard drive while the process continues.
 
-5) Can you think of one advantage of a File Allocation Table over a UNIX inode?  Or an advantage of a inode over a FAT?
+4) Suppose your program writes a file and prints a message indicating that it is done writing. Then a power cut crashes your computer. After you restore power and reboot the computer, you find that the file you wrote is not there. What happened?
 
-6) What is overhead?  What is fragmentation?
+- The file was in a buffer to write it, however it was kept in memory still and not written to the hard drive yet.
+
+5) Can you think of one advantage of a File Allocation Table over a UNIX inode? Or an advantage of a inode over a FAT?
+
+- FAT is more folder organized it seems while inode is more concerning with extra files to organize.
+
+6) What is overhead? What is fragmentation?
+
+- How much of an extra you might need, in this case probably space overhead in that you don't want to take up space that you could be storing files in. Fragmentation is where unused blocks are left open. This also spawned the idea of disk defrag, which reorganizes hard drives for higher efficiency. SSDs don't need this because of how their file system is defined and organized.
 
 7) Why is the "everything is a file" principle a good idea?  Why might it be a bad idea?
+
+- Smart, because networking and many other computing ideas can be organized in that mindset. Helps with making sure you do not corrupt in-use files or processes.
 
 If you would like to learn more about file systems, a good next step is to learn about journaling file systems.  
 Start with [this Wikipedia article](https://en.wikipedia.org/wiki/Journaling_file_system), then
