@@ -6,8 +6,7 @@ Philip Seger, 1/28/17, SoftSys
 #include <stdio.h>
 #include <stdlib.h>
 
-int main()
-{
+int main() {
     char card_name[3];
     int count = 0;
     while (card_name[0] != 'X') {
