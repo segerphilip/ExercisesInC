@@ -3,6 +3,8 @@
 Copyright 2014 Allen Downey
 License: GNU GPLv3
 
+Edits: Philip Seger, 1/29/17, SoftSys
+
 */
 
 #include <stdio.h>
@@ -14,10 +16,10 @@ int *foo() {
     int i;
     int array[SIZE];
 
-    //printf("%p\n", array);
+    // printf("%p\n", array);
 
-    for (i=0; i<SIZE; i++) {
-	array[i] = 42;
+    for (i = 0; i < SIZE; i++) {
+	       array[i] = 42;
     }
     return array;
 }
@@ -28,19 +30,18 @@ void bar() {
 
     //printf("%p\n", array);
 
-    for (i=0; i<SIZE; i++) {
+    for (i = 0; i < SIZE; i++) {
 	array[i] = i;
     }
 }
 
-int main()
-{
+int main() {
     int i;
     int *array = foo();
     bar();
 
-    for (i=0; i<SIZE; i++) {
-	printf("%d\n", array[i]);
+    for (i = 0; i < SIZE; i++) {
+        printf("%d\n", array[i]);
     }
 
     return 0;
