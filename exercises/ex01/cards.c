@@ -1,4 +1,4 @@
-/* Chapter 1 progress
+/* Chapter 1 cards.c
 
 Philip Seger, 1/28/17, SoftSys
 
@@ -6,14 +6,16 @@ Philip Seger, 1/28/17, SoftSys
 #include <stdio.h>
 #include <stdlib.h>
 
-/*
+/* Prompts for and gets user input.
+*card_name - Pointer to the value of the card
 */
 void get_input(char *card_name) {
     puts("Enter the card name: ");
     scanf("%2s", card_name);
 }
 
-/*
+/* Finds the card value and stores that in val.
+*card_name - Pointer to the value of the card
 */
 int get_value(char *card_name) {
     int val = 0;
@@ -49,7 +51,7 @@ void increment_count(int val, int *count) {
     printf("Current count: %i\n", *count);
 }
 
-/* Main function which does card count of input.
+/* Main function which does card counting of the input.
 */
 int main() {
     char card_name[3];
