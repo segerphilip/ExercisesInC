@@ -160,21 +160,26 @@ Also consider reading [this USENIX paper](https://www.usenix.org/legacy/event/us
 
 ### Bits and bytes
 
-1) Suppose you have the value 128 stored as an unsigned 8-bit number.  What happens if you convert
-it to a 16-bit number and accidentally apply sign extension?
+1) Suppose you have the value 128 stored as an unsigned 8-bit number.  What happens if you convert it to a 16-bit number and accidentally apply sign extension?
 
-2) Write a C expression that computes the two's complement of 12 using the XOR bitwise operator.
-Try it out and confirm that the result is interpreted as -12.
+1111 1111 1000 0000.
 
-3) Can you guess why IEEE floating-point uses biased integers to represent the exponent rather than a
-sign bit or two's complement?
+2) Write a C expression that computes the two's complement of 12 using the XOR bitwise operator. Try it out and confirm that the result is interpreted as -12.
 
-4) Following the example in Section 5.4, write the 32-bit binary representation of -13 in single precision
-IEEE floating-point.  What would you get if you accidentally interpreted this value as an integer?
+Reverse bits with ~, add 1 for the complement. x=(~y)+1;
 
-5) Write a function that takes a string and converts from lower-case to upper-case by flipping the sixth bit.  
-As a challenge, you can make a faster version by reading the string 32 or 64 bits at a time, rather than one
-character at a time.  This optimization is made easier if the length of the string is a multiple of 4 or 8 bytes.
+3) Can you guess why IEEE floating-point uses biased integers to represent the exponent rather than a sign bit or two's complement?
+
+Used to make comparisons more simple, specifically with negative values.
+
+4) Following the example in Section 5.4, write the 32-bit binary representation of -13 in single precision IEEE floating-point. What would you get if you accidentally interpreted this value as an integer?
+
+13 in binary: 1101 = 1.101 * 2^3. Sign (1 bit): 1. Exponent (8 bits): 3 + 127 bias = 130 = 10000010. Coefficient (23 bits): 101 = 00000000000000000000101. -13 is 1 10000010 00000000000000000000101
+
+Could be evaluated to -1056964603.
+
+5) Write a function that takes a string and converts from lower-case to upper-case by flipping the sixth bit. As a challenge, you can make a faster version by reading the string 32 or 64 bits at a time, rather than one
+character at a time. This optimization is made easier if the length of the string is a multiple of 4 or 8 bytes.
 
 
 
@@ -183,29 +188,34 @@ character at a time.  This optimization is made easier if the length of the stri
 
 ### Memory management
 
-1) Which memory management functions would you expect to take constant time?  Which ones take time proportional to the size of the allocated chunk?
+1) Which memory management functions would you expect to take constant time? Which ones take time proportional to the size of the allocated chunk?
+
+malloc and free take constant time because they only allocate/deallocate a space, they don't do anything with the space. calloc and realloc actually go through and clear it, so they take the amount of time based on the data already there.
 
 2) For each of the following memory errors, give an example of something that might go wrong:
 
-a) Reading from unallocated memory.
+a) Reading from unallocated memory. = random values depending on how you read/interpret the unallocated data
 
-b) Writing to unallocated memory.
+b) Writing to unallocated memory. = does not raise errors, but will probably break things later in the code
 
-c) Reading from a freed chunk.
+c) Reading from a freed chunk. = similar errors as a
 
-d) Writing to a freed chunk.
+d) Writing to a freed chunk. = similar errors as b
 
-e) Failing to free a chunk that is no longer needed.
+e) Failing to free a chunk that is no longer needed. = system might run out of memory, or you will have a memory leak that may later become a problem when the program grows in size
 
 
 3) Run
 
     ps aux --sort rss
 
-to see a list of processes sorted by RSS, which is "resident set size", the amount of physical
-memory a process has.  Which processes are using the most memory?
+to see a list of processes sorted by RSS, which is "resident set size", the amount of physical memory a process has.  Which processes are using the most memory?
+
+Desktop environment (lol), Spotify, Chrome. Big surprise.
 
 4) What's wrong with allocating a large number of small chunks?  What can you do to mitigate the problem?
+
+Malloc is not the most space efficient because it uses boundary tags and pointers, it might be better to just use arrays to allocate small chunks.
 
 If you want to know more about how malloc works, read
 [Doug Lea's paper about dlmalloc](http://gee.cs.oswego.edu/dl/html/malloc.html)
