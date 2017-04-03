@@ -12,7 +12,7 @@ License: MIT License https://opensource.org/licenses/MIT
 #include <errno.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <wait.h>
+//#include <wait.h>
 
 
 // errno is an external global variable that contains

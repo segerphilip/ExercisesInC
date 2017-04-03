@@ -5,6 +5,42 @@ License: MIT License https://opensource.org/licenses/MIT
 
  */
 
+// OUTPUT from ./fork 1
+/*
+Creating child 0.
+Hello from the parent.
+Hello from child 0.
+Child 12346 exited with error code 0.
+Elapsed time = 0.000324 seconds.
+*/
+
+// OUTPUT from ./fork 2
+/*
+Creating child 0.
+Creating child 1.
+Hello from the parent.
+Hello from child 0.
+Child 12348 exited with error code 0.
+Hello from child 1.
+Child 12349 exited with error code 1.
+Elapsed time = 1.000606 seconds.
+*/
+
+// OUTPUT from ./fork 3
+/*
+Creating child 0.
+Creating child 1.
+Creating child 2.
+Hello from the parent.
+Hello from child 0.
+Child 12351 exited with error code 0.
+Hello from child 1.
+Child 12352 exited with error code 1.
+Hello from child 2.
+Child 12353 exited with error code 2.
+Elapsed time = 2.000303 seconds.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,7 +66,7 @@ double get_seconds() {
 }
 
 
-void child_code(int i) 
+void child_code(int i)
 {
     sleep(i);
     printf("Hello from child %d.\n", i);
@@ -54,41 +90,41 @@ int main(int argc, char *argv[])
     } else {
       num_children = 1;
     }
-    
+
     // get the start time
     start = get_seconds();
-    
+
     for (i=0; i<num_children; i++) {
-      
+
         // create a child process
         printf("Creating child %d.\n", i);
 	pid = fork();
-      
+
 	/* check for an error */
 	if (pid == -1) {
 	    fprintf(stderr, "fork failed: %s\n", strerror(errno));
 	    perror(argv[0]);
 	    exit(1);
 	}
-      
+
 	/* see if we're the parent or the child */
 	if (pid == 0) {
 	  child_code(i);
 	}
     }
-    
+
     /* parent continues */
     printf("Hello from the parent.\n");
-    
+
     for (i=0; i<num_children; i++) {
         pid = wait(&status);
-      
+
 	if (pid == -1) {
 	    fprintf(stderr, "wait failed: %s\n", strerror(errno));
 	    perror(argv[0]);
 	    exit(1);
 	}
-	
+
 	// check the exit status of the child
 	status = WEXITSTATUS(status);
 	printf("Child %d exited with error code %d.\n", pid, status);
@@ -96,6 +132,6 @@ int main(int argc, char *argv[])
     // compute the elapsed time
     stop = get_seconds();
     printf("Elapsed time = %f seconds.\n", stop - start);
-    
+
     exit(0);
 }
