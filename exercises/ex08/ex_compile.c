@@ -2,6 +2,7 @@
 
 From http://www.ibm.com/developerworks/linux/tutorials/l-glib/
 
+Edits by Philip Seger.
 */
 
 #include <stdio.h>
@@ -14,4 +15,3 @@ int main(int argc, char** argv) {
     printf("The first item is '%s'\n", (char *) g_list_first(list)->data);
     return 0;
 }
-
