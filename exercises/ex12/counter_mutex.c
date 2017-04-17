@@ -5,7 +5,6 @@
        License: Creative Commons Attribution-ShareAlike 3.0
 
        Edits by Philip Seger, 4/17/17.
-       "Some" errors: 5439729
 */
 
 #include <stdio.h>
@@ -83,6 +82,7 @@ typedef struct {
     int counter;
     int end;
     int *array;
+    Semaphore *sem;
 } Shared;
 
 /*  make_shared
@@ -105,6 +105,10 @@ Shared *make_shared (int end)
     for (i=0; i<shared->end; i++) {
         shared->array[i] = 0;
     }
+
+    Semaphore *sem = make_semaphore(1);
+    shared->sem = sem;
+
     return shared;
 }
 

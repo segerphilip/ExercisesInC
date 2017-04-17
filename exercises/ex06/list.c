@@ -5,6 +5,8 @@ Based on an example from http://www.learn-c.org/en/Linked_lists
 Copyright 2016 Allen Downey
 License: Creative Commons Attribution-ShareAlike 3.0
 
+Edits by Philip Seger.
+
 */
 
 #include <stdio.h>
