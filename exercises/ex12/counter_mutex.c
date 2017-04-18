@@ -5,6 +5,8 @@
        License: Creative Commons Attribution-ShareAlike 3.0
 
        Edits by Philip Seger, 4/17/17.
+       Turns out sem_init does not work on MacOS, however it works
+       and has been tested on Ubuntu 17.04. Yeah, it just came out.
 */
 
 #include <stdio.h>
@@ -164,15 +166,21 @@ void child_code (Shared *shared)
     printf ("Starting child at counter %d\n", shared->counter);
 
     while (1) {
+	    sem_wait(shared->sem);
+
 	    if (shared->counter >= shared->end) {
+		sem_signal(shared->sem);
 	        return;
 	    }
+
 	    shared->array[shared->counter]++;
 	    shared->counter++;
 
 	    if (shared->counter % 100000 == 0) {
 	        printf ("%d\n", shared->counter);
 	    }
+
+	    sem_signal(shared->sem);
     }
 }
 
