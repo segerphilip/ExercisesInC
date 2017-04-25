@@ -3,6 +3,8 @@
 Copyright 2014 Allen Downey
 License: Creative Commons Attribution-ShareAlike 3.0
 
+Edits by Philip Seger 4/24/17.
+
 */
 
 #include <stdio.h>
@@ -41,6 +43,7 @@ int pop(Node **head) {
 
     next_node = (*head)->next;
     retval = (*head)->val;
+    free(*head);
     *head = next_node;
 
     return retval;
@@ -71,6 +74,7 @@ int remove_by_value(Node **head, int val) {
 	if (node->next->val == val) {
 	    victim = node->next;
 	    node->next = victim->next;
+      free(victim);
 	    return 1;
 	}
     }
@@ -96,6 +100,8 @@ void reverse(Node **head) {
 	next = temp;
     }
     *head = node;
+    free(next);
+    free(temp);
 }
 
 // Adds a new element to the list before the indexed element.
@@ -133,6 +139,12 @@ Node *make_something() {
     return node3;
 }
 
+void free_list(Node **head) {
+    while (*head != NULL) {
+      pop(head);
+    }
+}
+
 int main() {
     // make a list of even numbers
     Node *test_list = make_node(2, NULL);
@@ -161,8 +173,10 @@ int main() {
     print_list(empty);
 
     Node *something = make_something();
-    free(something);
+
+    free_list(&something);
+    free_list(&test_list);
+    free_list(&empty);
 
     return 0;
 }
- 

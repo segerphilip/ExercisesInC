@@ -8,6 +8,8 @@ http://www.ibm.com/developerworks/linux/tutorials/l-glib/section5.html
 
 Note: this version leaks memory.
 
+Edits by Philip Seger 4/24/17.
+
 */
 
 #include <stdio.h>
@@ -55,8 +57,8 @@ void accumulator (gpointer key, gpointer value, gpointer user_data)
     pair->word = (gchar *) key;
     pair->freq = * (gint *) value;
 
-    g_sequence_insert_sorted (seq, 
-			      (gpointer) pair, 
+    g_sequence_insert_sorted (seq,
+			      (gpointer) pair,
 			      (GCompareDataFunc) compare_pair,
 			      NULL);
 }
@@ -69,10 +71,18 @@ void incr (GHashTable* hash, gchar *key)
     if (val == NULL) {
 	gint *val1 = g_new (gint, 1);
 	*val1 = 1;
+  // P: g_hash_table_insert should free after adding
 	g_hash_table_insert (hash, key, val1);
     } else {
+  // P: though we need to free key if not insert
 	*val += 1;
+  g_free(key);
     }
+}
+
+// P: function to free individual data elements
+void free_data(void *data) {
+    free(data);
 }
 
 int main (int argc, char** argv)
@@ -96,7 +106,9 @@ int main (int argc, char** argv)
        (one-L) NUL terminated strings */
     gchar **array;
     gchar line[128];
-    GHashTable* hash = g_hash_table_new (g_str_hash, g_str_equal);
+    // P: g_hash_table_new_full takes more inputs, mainly free stuff
+    GHashTable* hash = g_hash_table_new_full (g_str_hash, g_str_equal,
+      free_data, free_data);
     int i;
 
     // read lines from the file and build the hash table
@@ -115,7 +127,7 @@ int main (int argc, char** argv)
     // g_hash_table_foreach (hash,  (GHFunc) printor, "Word %s freq %d\n");
 
     // iterate the hash table and build the sequence
-    GSequence *seq = g_sequence_new (NULL);
+    GSequence *seq = g_sequence_new (free_data);
     g_hash_table_foreach (hash,  (GHFunc) accumulator, (gpointer) seq);
 
     // iterate the sequence and print the pairs
