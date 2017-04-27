@@ -3,10 +3,12 @@
 Copyright 2014 Allen Downey
 License: MIT License
 
-Based on an example from 
+Based on an example from
 https://raw.githubusercontent.com/twcamper/head-first-c/master/10/math-master.c
 
 Based on an example in Head First C.
+
+Modified by Philip Seger 4/24/17.
 
 */
 
