@@ -14,6 +14,6 @@ Based on
 
 This repo contains the work done as part of the Spring offering of Software Systems, 2017.
 
-Reflections can be found here: [reflection 0](/reflections/reflection0.md), [reflection 1](/reflections/reflection1.md), [reflection 2](/reflections/reflection2.md).
-Work done from the *Think OS* book are found [here](/reading_questions/).
-The completed exercises for *Head First C* are [here](/exercises/).
+Reflections can be read here: [reflection 0](/reflections/reflection0.md), [reflection 1](/reflections/reflection1.md), and [reflection 2](/reflections/reflection2.md).
+Work done from the *Think OS* book can be found in [reading questions](/reading_questions/thinkos.md).
+The completed exercises for *Head First C* are in [exercises](/exercises/).
